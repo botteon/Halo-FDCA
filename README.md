@@ -1,7 +1,7 @@
 # Halo-FDCA (Flux Density CAlculator)
 
 ## Introduction
-This software pipile is created to automate flux density (and power) estimations of radio halos in galaxy clusters. This is done by fitting the surface brightness profile of halos to a mathematical model using Bayesian Inference. From the resulting fits, the flux density profile can be calculatied analytically. The text below provides a step-by-step example and walk trough of the algorithm as well as a summary of installation and machine requirements. A full text on the methodology can be found under 'Citation'.
+This software pipile is created to automate flux density (and power) estimations of radio halos in galaxy clusters. This is done by fitting the surface brightness profile of halos to a mathematical model using Bayesian Inference. From the resulting fit, the flux density profile can be calculated analytically. The text below provides a step-by-step example and walk through of the algorithm as well as a summary of installation and machine requirements. A full text on the methodology can be found under 'Citation'.
 
 This software is open source and still in development. Suggestions, remarks, bugfixes, questions etc. are more than welcome and can be sent to boxelaar@strw.leidenuniv.nl .
 
@@ -34,7 +34,7 @@ https://corner.readthedocs.io/en/latest/index.html
 https://scikit-image.org
 
 
-This software will run a multithreaded process by default using the `multiprocessing` module. This requires significant computing power and it is advised to use a dedicated external computing mashine. Multithreading can be turned off but this will increase the run time up to a factor 10 (depending on the settings).  
+This software will run a multithreaded process by default using the `multiprocessing` module. This requires significant computing power and it is advised to use a dedicated external computing machine. Multithreading can be turned off but this will increase the run time up to a factor 10 (depending on the settings).  
 
 ## Algorithm Instructions
 ### Overview
@@ -42,9 +42,9 @@ This software will run a multithreaded process by default using the `multiproces
 
 This flowchart gives a general overview of the pipeline. On code level, the pipeline works roughly like this:<br>
 First, a `Radio_Halo` object must be initiated. When initiating the object, all relevant properties are processed. This class is documented in `HaloObject.py`.
-This class also handles the very first fits such that the image coordinates can be related to sky coordinates without using the header. The `Radio_Halo` class handles steps up to 'Second preliminary fit'. 'Rotating and regridding' is not performed by the class.
+This class also handles the very first fit such that the image coordinates can be related to sky coordinates without using the header. The `Radio_Halo` class handles the steps up to 'Second preliminary fit'. 'Rotating and regridding' is not performed by the class.
 
-The Markov Chain Monte Carlo (MCMC) algorithm is performed in the blue part of the flowchart. This takes place in the `fitting` class in `markov_chain_monte_carlo.py` (see calss documentation there and below). This class takes a Radio Halo object as input and from there starts the profile fitting based on the extra settings given as input. 'Chains' that are the result of MCMC are saved in new FITS files (`./Results/Samples/`), settings of the speciffic run are saved in the header. 
+The Markov Chain Monte Carlo (MCMC) algorithm is performed in the blue part of the flowchart. This takes place in the `fitting` class in `markov_chain_monte_carlo.py` (see class documentation there and below). This class takes a Radio Halo object as input and from there starts the profile fitting based on the extra settings given as input. 'Chains' that are the result of MCMC are saved in new FITS files (`./Results/Samples/`), settings of the speciffic run are saved in the header. 
 
 The `processing` class in `markov_chain_monte_carlo.py` takes a halo object as input and processes the MCMC results by generating figures, statistical analysis and final flux density and parameter estimations. these results are found in the log files: `./outputpath/log/`.
 
@@ -52,10 +52,10 @@ The `processing` class in `markov_chain_monte_carlo.py` takes a halo object as i
 The code requires very specific input to be able to work properly. 
 
 - .FITS file:<br>
-This includes a FITS image with a clean, preferably point source subtracted radio image of a galaxy cluster containing diffuse emission. 
+This includes a FITS image with a clean, preferably point source subtracted, radio image of a galaxy cluster containing diffuse emission. 
 
 - .reg file:<br>
-A DS9 region file with ragions drawn around contamination in the image, saved in physical coordinates. The schape of the region can be of any kind. A region file is not mandatory to be able to run the code. 
+A DS9 region file with regions drawn around contamination in the image, saved in physical coordinates. The shape of the region can be of any kind. A region file is not mandatory to run the code.
 
 Currently, cluster characteristics such as location and redshift can be retrieved from catalogues on VIZIER. This automatic retrieval of cluster information is availible for MCXC, PSZ2, Abell and WHL clusters. A catalogue search is not always succesful, it is adviced to give the essential cluster information, redshift and sky location, as input. 
 
@@ -132,8 +132,9 @@ optional arguments:
 The keywords `object` and `d_path` are mandatory to give to be able to run the code.
 
 Note: At this point, the code only works when `HaloFitting.py` is runned from it's current directory. To get around this problem, The FDCA directory should be placed in your python "site-packages" directory to effectively let it function as a package. 
+
 ### Output
-Samples file in FITS format containing the walker strings and run infromation (found in **outputpath/Output/Samples**). This file is used to process the routine and retrieve flux denisty and parameter values. All values and their one sigma uncertainties will be printed in the log file after running the pipeline. The figures will be in **outputpath/Output/Plots**. There, all relevant figures will be saved. This includes the corner plot, walker plot and radio image with model overlay for the original and regridded image. 
+Samples file in FITS format containing the walker strings and run infromation (found in **outputpath/Output/Samples**). This file is used to process the routine and retrieve flux density and parameter values. All values and their one sigma uncertainties will be printed in the log file after running the pipeline. The figures will be in **outputpath/Output/Plots**. There, all relevant figures will be saved. This includes the corner plot, walker plot and radio image with model overlay for the original and regridded image. 
 
 ## Example (Abell 2744)
 
@@ -141,7 +142,7 @@ Samples file in FITS format containing the walker strings and run infromation (f
 
 We will now show an exapmle to showcase the code using Abell 2744. See:https://ui.adsabs.harvard.edu/abs/2017ApJ...845...81P  by C.J.J Pearce, (2017) for more information on the cluster.
 
-The recommended way to install prefactor is to download it from github with:
+The recommended way to install Halo-FDCA is to download it from github with:
 
 `git clone https://github.com/JortBox/Halo-FDCA.git`
 This allows for easy updating of the code to include bugfixes or new features. Once downloaded, the installation is complete; to set up a run from the **Example** directory, use the following line included with standard settings:
